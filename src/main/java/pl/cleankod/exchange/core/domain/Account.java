@@ -8,9 +8,9 @@ import java.util.regex.Pattern;
 
 public record Account(@JsonUnwrapped Id id, @JsonUnwrapped Number number, Money balance) {
 
-    public record Id(UUID value) {
+    public record Id(UUID id) {
         public Id {
-            Preconditions.requireNonNull(value);
+            Preconditions.requireNonNull(id);
         }
 
         public static Id of(UUID value) {
@@ -23,13 +23,13 @@ public record Account(@JsonUnwrapped Id id, @JsonUnwrapped Number number, Money 
         }
     }
 
-    public record Number(String value) {
+    public record Number(String number) {
         private static final Pattern PATTERN =
                 Pattern.compile("\\d{2}[ ]?\\d{4}[ ]?\\d{4}[ ]?\\d{4}[ ]?\\d{4}[ ]?\\d{4}[ ]?\\d{4}");
 
         public Number {
-            Preconditions.requireNonNull(value);
-            if (!PATTERN.matcher(value).matches()) {
+            Preconditions.requireNonNull(number);
+            if (!PATTERN.matcher(number).matches()) {
                 throw new IllegalArgumentException("The account number does not match the pattern: " + PATTERN);
             }
         }
