@@ -80,4 +80,16 @@ Documentation will be available on `http://localhost:8080/swagger-ui/index.html#
 
 # Done
 * Investigate whether it is possible to implement the value-object serialization, to avoid `value` nested field in JSON. See [#10](https://github.com/cleankod/currency-rate-converter/pull/10) as a starting point. Or maybe there is a better solution to the problem at hand?
+  Possible solution of this is to add annotation `@JsonUnwrapped`  on properties in `Account`, but this cause two problems: some test failed, moreover it produces JSON with improper fields names (duplicated):
+
+```json
+{
+    "balance": {
+        "amount": 27.27,
+        "currency": "EUR"
+    },
+    "value": "fa07c538-8ce4-11ec-9ad5-4f5a625cd744",
+    "value": "65 1090 1665 0000 0001 0373 7343"
+}
+```
 * Auto generating REST API docs.

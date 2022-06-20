@@ -1,16 +1,15 @@
 package pl.cleankod.exchange.core.domain;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import pl.cleankod.util.Preconditions;
 
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-public record Account(@JsonUnwrapped Id id, @JsonUnwrapped Number number, Money balance) {
+public record Account(Id id, Number number, Money balance) {
 
-    public record Id(UUID id) {
+    public record Id(UUID value) implements SingleValueObject<UUID> {
         public Id {
-            Preconditions.requireNonNull(id);
+            Preconditions.requireNonNull(value);
         }
 
         public static Id of(UUID value) {
@@ -23,13 +22,13 @@ public record Account(@JsonUnwrapped Id id, @JsonUnwrapped Number number, Money 
         }
     }
 
-    public record Number(String number) {
+    public record Number(String value) implements SingleValueObject<String> {
         private static final Pattern PATTERN =
                 Pattern.compile("\\d{2}[ ]?\\d{4}[ ]?\\d{4}[ ]?\\d{4}[ ]?\\d{4}[ ]?\\d{4}[ ]?\\d{4}");
 
         public Number {
-            Preconditions.requireNonNull(number);
-            if (!PATTERN.matcher(number).matches()) {
+            Preconditions.requireNonNull(value);
+            if (!PATTERN.matcher(value).matches()) {
                 throw new IllegalArgumentException("The account number does not match the pattern: " + PATTERN);
             }
         }
